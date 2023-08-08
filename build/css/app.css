@@ -1,0 +1,210 @@
+@charset "UTF-8";
+/*
+    ~¿Qué es SASS vs CSS?
+        ?CSS NOS PERMITE APLICAR ESTILO AL HTML
+        ?SASS es un lenguaje que se 'compila' en CSS
+        ?SCSS es un lenguaje que se 'compila' en CSS
+
+    ~Pero entoces, ¿Qué se entiende cuando decimos SASS?
+        ?SASS es un lenguaje que se compila en css
+
+    ~¿Cómo podemos utilizar SASS?
+        ?Se crear un archivo de SASS y se compila con herramientas.
+
+    ~¿Cómo se puede compilar SASS?
+        ?Se puede hacer de múltiples formas:
+            !Herramientas como prepros el más fácil de todos.
+            !Mediate consola utilizando NodeJS.
+            !Sistemas de Bundling como WebPack.
+            !Sistemas de Task Runner como Grunt.
+
+    ~¿Cómo escribir variables en SASS?
+        ?Declaramos la variable.
+        ?Por lo general se utiliza "snake-case" o "camelCase".
+*/
+a {
+  color: black;
+}
+
+p {
+  background-color: black;
+}
+
+header {
+  font-family: verdana;
+  color: black;
+}
+
+h1 {
+  font-family: Helvetica;
+  color: red;
+}
+
+header {
+  color: yellow;
+}
+
+h1 {
+  font-family: Helvetica;
+  color: yellow;
+}
+
+/*
+     ~¿Qué es un mixin?
+        ?En CSS los mixins no estan disponibles, pero si en SASS
+        ?Es un funcion que nos permite ahorrar línes de codigo y puede usar:
+            !Argumentos (variables)
+            !@content
+    ~¿SASS y SCSS es lo mismo?
+        ?Son lo mismo, la diferencia es que SASS no se usan ";" ni "{}"
+
+    ~Podemos definir varios tipos de mixins:
+        ?Mixin sin Argumentos
+        ?Mixin con Argumentos
+            !Solo 1 argumento
+            !Más de 1 argumento
+            !Argumento con valor por defecto
+        ?Mixin con la regla  @content
+        ?Mixin para Flex
+        ?Mixin para Grid
+        ?Mixin para Responsive Design
+*/
+/*
+    ~Mixin sin Argumentos
+        ?Creamos un @mixin
+        ?Usamos con @include
+    ~Hay una similitud con JavaScript en donde creamos la función y despues llamamos la funcion.
+*/
+header {
+  background: black;
+  font-size: 1em;
+}
+
+/*
+    ~Mixin con Argumentos.
+        ?Siempre con los "()"
+        ?Los argumentos son "variables"
+*/
+p {
+  color: black;
+}
+
+p {
+  color: blue;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+p {
+  color: violet;
+  color: red;
+}
+
+/*
+    ~Mixin con la regla @content
+        ?Nos permite introducir múltiples propiedades CSS dentro de un mixin.
+        ?Muy usado para Responsive Design
+*/
+p {
+  font-size: 4em;
+}
+@media screen and (max-width: 480px) {
+  p {
+    font-family: 1em;
+  }
+}
+
+/*
+    *Mixin para flex
+    ~Cuando no tenemos un mixin tenemos que:
+        ?Repetir varias veces las mismas propiedades.
+        ?No tenemos un orden.
+        ?Escribimos varias líneas por etiqueta.
+        ?Más probabilidad de equivocarte al escribir.
+*/
+main {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+section {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+main {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: end;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+}
+
+section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2em;
+}
+@media screen and (max-width: 480px) {
+  main {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+}
+@media screen and (max-width: 480px) {
+  section {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+article {
+  width: 25%;
+}
+
+@media screen and (max-width: 768px) {
+  article {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 480px) {
+  article {
+    width: 100%;
+  }
+}
+main {
+  width: 25%;
+}
+@media screen and (max-width: 768px) {
+  main {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 480px) {
+  main {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=app.css.map */

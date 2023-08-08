@@ -1,0 +1,253 @@
+/*
+    ~¿Qué es SASS vs CSS?
+        ?CSS NOS PERMITE APLICAR ESTILO AL HTML
+        ?SASS es un lenguaje que se 'compila' en CSS
+        ?SCSS es un lenguaje que se 'compila' en CSS
+
+    ~Pero entoces, ¿Qué se entiende cuando decimos SASS?
+        ?SASS es un lenguaje que se compila en css
+
+    ~¿Cómo podemos utilizar SASS?
+        ?Se crear un archivo de SASS y se compila con herramientas.
+    
+    ~¿Cómo se puede compilar SASS?
+        ?Se puede hacer de múltiples formas:
+            !Herramientas como prepros el más fácil de todos.
+            !Mediate consola utilizando NodeJS.
+            !Sistemas de Bundling como WebPack.
+            !Sistemas de Task Runner como Grunt.
+
+    ~¿Cómo escribir variables en SASS?
+        ?Declaramos la variable.
+        ?Por lo general se utiliza "snake-case" o "camelCase".
+*/
+
+$negro: black; //*Declaramos la variable
+
+a{
+    color: $negro; //*Usamos la variable en una propiedad.
+}
+p{
+    background-color: $negro; //*Usamos la variable en una propiedad.
+}
+
+//~En caso de tener muchas variables y hay la necesidad de repetir, aplicamos lo siguiente:
+
+//?Muchas variables
+$color-black: black;
+$color-blue: blue;
+$color-red: red;
+$font-normal: verdana;
+$font-title: Helvetica;
+
+header{
+    font-family: $font-normal;
+    color: $color-black;
+}
+h1{
+    font-family: $font-title;
+    color: $color-red;
+}
+
+//?Para tener más organización se guardan la variables en un array usando map-get() para usar las variable.
+$colors:(
+    "black": red,
+    "yellow": yellow,
+);
+$fonts:(
+    "normal": verdana,
+    "title": Helvetica,
+);
+
+header{
+    font-family: map-get($fonts, 'Helvetica');
+    color: map-get($colors, 'yellow');
+}
+h1{
+    font-family: map-get($fonts, 'title');
+    color: map-get($colors, 'yellow');
+}
+
+/*
+     ~¿Qué es un mixin?
+        ?En CSS los mixins no estan disponibles, pero si en SASS
+        ?Es un funcion que nos permite ahorrar línes de codigo y puede usar:
+            !Argumentos (variables)
+            !@content
+    ~¿SASS y SCSS es lo mismo?
+        ?Son lo mismo, la diferencia es que SASS no se usan ";" ni "{}"
+        
+    ~Podemos definir varios tipos de mixins:
+        ?Mixin sin Argumentos
+        ?Mixin con Argumentos
+            !Solo 1 argumento
+            !Más de 1 argumento
+            !Argumento con valor por defecto
+        ?Mixin con la regla  @content
+        ?Mixin para Flex
+        ?Mixin para Grid
+        ?Mixin para Responsive Design
+*/
+/*
+    ~Mixin sin Argumentos
+        ?Creamos un @mixin
+        ?Usamos con @include
+    ~Hay una similitud con JavaScript en donde creamos la función y despues llamamos la funcion.
+*/
+
+//*Creamos el mixin
+@mixin nombreMixin(){
+    background: black;
+    font-size: 1em;
+}
+
+//*Usamos el mixin
+header{
+    @include nombreMixin();
+}
+/*
+    ~Mixin con Argumentos.
+        ?Siempre con los "()"
+        ?Los argumentos son "variables"
+*/
+
+//*Mixin con solo 1 argumeto
+@mixin nombre($argumento){
+    color: $argumento;
+}
+p{
+    @include nombre(black)
+}
+
+//*Mixin con más de un argumento
+@mixin nombre($argumento1, $argumento2, $argumento3){
+    color: $argumento1;
+    font-weight: $argumento2;
+    font-size: $argumento3;
+}
+p{
+    @include nombre(blue, bold, 2em)
+}
+//*Mixin con un argumento ya definido
+@mixin nombre($argumento1:violet){
+    color: $argumento1;
+}
+p{
+    @include nombre();
+    @include nombre(red);
+}
+/*
+    ~Mixin con la regla @content
+        ?Nos permite introducir múltiples propiedades CSS dentro de un mixin.
+        ?Muy usado para Responsive Design
+*/
+//*Definiendo un mixin para movil
+@mixin movil(){
+    @media screen and (max-width: 480px){
+        @content;
+    }
+}
+p{
+    font-size: 4em;
+    @include movil(){
+        font-family: 1em;
+    }
+}
+/*
+    *Mixin para flex
+    ~Cuando no tenemos un mixin tenemos que:
+        ?Repetir varias veces las mismas propiedades.
+        ?No tenemos un orden.
+        ?Escribimos varias líneas por etiqueta.
+        ?Más probabilidad de equivocarte al escribir.
+*/
+//*Ejemplo de como escribiriamos la propiedad flex a un contenedor
+main{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+section{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+//*Utilizando un MIXIN
+@mixin flex($display, $direccion, $corte, $just, $align){
+    display: $display;
+    flex-flow: $direccion $corte;
+    justify-content: $just;
+    align-items: $align;
+}
+
+//*Utilizando un MIXIN
+main{
+    @include flex(flex, column, nowrap, center, end);
+}
+
+//~Mixin para GRID
+//*Sin MIXIN
+main{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1em;
+}
+section{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2em;
+}
+
+//*Con Mixin y agregando un media screen
+@mixin grid($columnas,$espacio){
+    display: grid;
+    grid-template-columns: repeat($columnas, 1fr);
+    gap: $espacio;
+    
+    @media screen and (max-width:480px){
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+main{
+    @include grid(2, 2em);
+}
+section{
+    @include grid(3, 1em)
+}
+
+//~Mixin para Responsive Design
+
+//*Sin mixin
+article{
+    width: 25%;
+}
+@media screen and (max-width:768px){
+    article{
+        width: 50%;
+    }
+}
+@media screen and (max-width:480px) {
+    article{
+        width: 100%;
+    }
+}
+
+//*Con Mixins
+@mixin mobile($media:480px){
+    @media screen and (max-width:$media) {
+        @content
+    }
+}
+main{
+    width: 25%;
+    @include mobile(768px){
+        width: 50%;
+    }
+    @include mobile(){
+        width: 100%;
+    }
+}
